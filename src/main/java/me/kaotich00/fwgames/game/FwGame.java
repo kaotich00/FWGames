@@ -2,6 +2,7 @@ package me.kaotich00.fwgames.game;
 
 import me.kaotich00.fwgames.api.game.Game;
 import me.kaotich00.fwgames.api.game.Participants;
+import me.kaotich00.fwgames.utils.GameUtils;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -15,7 +16,7 @@ public class FwGame implements Game {
     private String name;
     private UUID manager;
     private Instant creationDate;
-    private short status; // 0 - init, 1 - started
+    private int status;
     private Set<Participants> participants;
     private Location<World> spawnPoint;
 
@@ -23,7 +24,7 @@ public class FwGame implements Game {
         this.name = name;
         this.manager = manager;
         this.creationDate = Instant.now();
-        this.status = 0;
+        this.status = GameUtils.GAME_INIT;
         this.participants = new HashSet<>();
         this.spawnPoint = spawnPoint;
     }
@@ -44,8 +45,13 @@ public class FwGame implements Game {
     }
 
     @Override
-    public short getStatus() {
+    public int getStatus() {
         return this.status;
+    }
+
+    @Override
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override

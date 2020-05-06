@@ -56,10 +56,6 @@ public class Fwgames {
         commandManager.registerCommands();
     }
 
-    private void registerConfigService() throws IOException, ObjectMappingException {
-
-    }
-
     public Logger getLogger() {
         return logger;
     }

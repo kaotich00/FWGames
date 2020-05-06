@@ -15,7 +15,9 @@ public interface Game {
 
     Instant getCreationDate();
 
-    short getStatus();
+    int getStatus();
+
+    void setStatus(int status);
 
     Set<Participants> getParticipants();
 

@@ -1,6 +1,9 @@
 package me.kaotich00.fwgames;
 
 import com.google.inject.Inject;
+import me.kaotich00.fwgames.api.game.GameService;
+import me.kaotich00.fwgames.commands.FwCommandManager;
+import me.kaotich00.fwgames.game.SimpleGameService;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -35,21 +38,22 @@ public class Fwgames {
 
     @Listener
     public void onPreInit(GamePreInitializationEvent event ) {
-
+        Sponge.getServiceManager().setProvider( this.container, GameService.class, new SimpleGameService());
     }
 
     @Listener
     public void onInit(GameInitializationEvent event) {
-        registerListeners();
-    }
-
-    private void registerListeners() {
-        logger.info("[" + NAME + "] Successfully registered listeners" );
+        registerCommands();
     }
 
     @Listener
     public void onServerStop(GameStoppingServerEvent event){
 
+    }
+
+    private void registerCommands() {
+        final FwCommandManager commandManager = new FwCommandManager(this);
+        commandManager.registerCommands();
     }
 
     private void registerConfigService() throws IOException, ObjectMappingException {

@@ -38,8 +38,8 @@ public class JoinCommand implements CommandExecutor {
             return CommandResult.empty();
         }
 
-        if( !gameService.isStarted(eventName) ) {
-            src.sendMessage(ChatUtils.formatErrorMessage("L'evento è attualmente in corso, impossibile joinare"));
+        if( gameService.isStarted(eventName) ) {
+            src.sendMessage(ChatUtils.formatErrorMessage("L'evento e' attualmente in corso, impossibile joinare"));
             return CommandResult.empty();
         }
 

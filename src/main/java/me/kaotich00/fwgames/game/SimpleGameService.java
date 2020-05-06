@@ -25,7 +25,7 @@ public class SimpleGameService implements GameService {
         FwGame newGame = new FwGame(eventName, manager.getUniqueId(), manager.getLocation());
         gamesList.put(eventName,newGame);
         // Send the message to broadcast
-        String message = "&r&6L'evento "+ eventName +" sta per cominciare, digita \n &a/fwgames join "+ eventName +" &r&6per partecipare. ATTENZIONE: l'inventario viene cancellato in automatico.";
+        String message = "&r&6L'evento &a"+ eventName +"&6 sta per cominciare, digita \n &a/fwgames join "+ eventName +" &r&6per partecipare. ATTENZIONE: l'inventario viene cancellato in automatico.";
         ChatUtils.sendBroadcastMessage( message );
 
     }
@@ -41,7 +41,7 @@ public class SimpleGameService implements GameService {
         game.getParticipants().add(participant);
 
         // Send join message to player
-        String message = "Sei entrato con successo nell'evento " + eventName;
+        String message = "Sei entrato con successo nell'evento &a" + eventName;
         player.sendMessage( ChatUtils.formatMessage(message) );
 
         // Send join message to manager
@@ -72,7 +72,7 @@ public class SimpleGameService implements GameService {
         game.getParticipants().remove(participant);
 
         // Send join message to player
-        String message = "Hai lasciato l'evento " + eventName;
+        String message = "Hai lasciato l'evento &a" + eventName;
         player.sendMessage( ChatUtils.formatMessage(message) );
 
         // Send join message to manager
@@ -110,7 +110,7 @@ public class SimpleGameService implements GameService {
 
     @Override
     public boolean isStarted(String eventName) {
-        return gamesList.get(eventName).getStatus() == GameUtils.GAME_INIT;
+        return gamesList.get(eventName).getStatus() == GameUtils.GAME_STARTED;
     }
 
     @Override
@@ -124,7 +124,7 @@ public class SimpleGameService implements GameService {
         game.setStatus( GameUtils.GAME_STARTED );
 
         // Send the message to broadcast
-        String message = "&r&6L'evento "+ eventName +" e' appena partito. Da questo momento non sara' piu' possibile joinare.";
+        String message = "&r&6L'evento &a"+ eventName +"&6 e' appena partito. Da questo momento non sara' piu' possibile joinare.";
         ChatUtils.sendBroadcastMessage( message );
     }
 
@@ -146,7 +146,7 @@ public class SimpleGameService implements GameService {
         this.gamesList.remove(eventName);
 
         // Send the message to broadcast
-        String message = "&r&6L'evento "+ eventName +" e' terminato. Grazie a tutti i partecipanti. Alla prossima!";
+        String message = "&r&6L'evento &a"+ eventName +"&6 e' terminato. Grazie a tutti i partecipanti. Alla prossima!";
         ChatUtils.sendBroadcastMessage( message );
     }
 

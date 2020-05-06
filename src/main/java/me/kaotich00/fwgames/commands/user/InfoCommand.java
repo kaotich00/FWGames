@@ -38,10 +38,10 @@ public class InfoCommand implements CommandExecutor {
 
         final UserStorageService uss = Sponge.getServiceManager().provideUnchecked(UserStorageService.class);
         String infoMessage =    "&2&l------------------{ &aFW Games &2&l}------------------\n" +
-                                "&aNome evento: &r " + eventName + "\n" +
-                                "&aOrganizzatore: &r " + uss.get(game.getManager()).get().getName() + " \n" +
-                                "&aData creazione: &r " + game.getCreationDate().toString() + " \n" +
-                                "&aPartecipanti: &r " + game.getParticipants().size() + " \n";
+                                "&aNome evento: &r" + eventName + "\n" +
+                                "&aOrganizzatore: &r" + uss.get(game.getManager()).get().getName() + " \n" +
+                                "&aData creazione: &r" + game.getCreationDate().toString() + " \n" +
+                                "&aPartecipanti: &r" + game.getParticipants().size();
         src.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(infoMessage));
 
         return CommandResult.success();

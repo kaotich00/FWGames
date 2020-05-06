@@ -138,6 +138,7 @@ public class SimpleGameService implements GameService {
             Optional<User> optUser = uss.get(participants.getUniqueId());
             if( optUser.isPresent() ) {
                 optUser.get().setLocation( participants.getOriginalPosition().getPosition(), participants.getOriginalPosition().getExtent().getUniqueId() );
+                optUser.get().getInventory().clear();
             }
         });
 
@@ -147,6 +148,17 @@ public class SimpleGameService implements GameService {
         // Send the message to broadcast
         String message = "&r&6L'evento "+ eventName +" e' terminato. Grazie a tutti i partecipanti. Alla prossima!";
         ChatUtils.sendBroadcastMessage( message );
+    }
+
+    @Override
+    public boolean isGameManager(Player player, String eventName) {
+
+        Game game = getGame(eventName);
+
+        if( game == null )
+            return false;
+
+        return game.getManager().equals(player.getUniqueId());
     }
 
 

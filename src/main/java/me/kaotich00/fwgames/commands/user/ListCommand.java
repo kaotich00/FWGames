@@ -42,7 +42,7 @@ public class ListCommand implements CommandExecutor {
             return CommandResult.empty();
         }
 
-        if( !gameService.isPlayerInGame(player, eventName).isPresent() ) {
+        if( !gameService.isPlayerInGame(player, eventName).isPresent() && !gameService.isGameManager(player, eventName) ) {
             src.sendMessage(ChatUtils.formatErrorMessage("Non fai parte di questo evento"));
             return CommandResult.empty();
         }
@@ -56,7 +56,7 @@ public class ListCommand implements CommandExecutor {
                                                     .map(NameUtils::getDisplayName)
                                                     .orElse(Text.of()))
                                             .collect(Collectors.toSet());
-        src.sendMessage( ChatUtils.formatMessage(Text.joinWith(Text.of(","), participants).toPlain()) );
+        src.sendMessage( ChatUtils.formatMessage(Text.join(Text.of("Lista partecipanti: "), Text.joinWith(Text.of(","), participants)).toPlain()) );
         return CommandResult.success();
     }
 

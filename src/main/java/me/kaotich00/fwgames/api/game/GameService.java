@@ -27,4 +27,6 @@ public interface GameService {
 
     void endGame(String eventName);
 
+    boolean isGameManager(Player player, String eventName);
+
 }

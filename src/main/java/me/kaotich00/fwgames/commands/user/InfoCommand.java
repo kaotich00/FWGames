@@ -14,6 +14,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 public class InfoCommand implements CommandExecutor {
 
@@ -41,7 +42,7 @@ public class InfoCommand implements CommandExecutor {
                                 "&aOrganizzatore: &r " + uss.get(game.getManager()).get().getName() + " \n" +
                                 "&aData creazione: &r " + game.getCreationDate().toString() + " \n" +
                                 "&aPartecipanti: &r " + game.getParticipants().size() + " \n";
-        src.sendMessage(ChatUtils.formatMessage(infoMessage));
+        src.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(infoMessage));
 
         return CommandResult.success();
     }

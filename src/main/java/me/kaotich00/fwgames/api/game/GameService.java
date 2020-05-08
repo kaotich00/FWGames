@@ -1,9 +1,12 @@
 package me.kaotich00.fwgames.api.game;
 
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface GameService {
 
@@ -28,5 +31,9 @@ public interface GameService {
     void endGame(String eventName);
 
     boolean isGameManager(Player player, String eventName);
+
+    Location<World> wasPlayerInEvent(UUID player);
+
+    void removePlayerFromDisconnected(UUID player);
 
 }

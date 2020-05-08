@@ -9,14 +9,18 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.user.UserStorageService;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class SimpleGameService implements GameService {
 
     private Map<String, Game> gamesList = new HashMap();
+    private Map<UUID, Location<World>> playersDisonnectedDuringEvent = new HashMap();
 
     @Override
     public void createGame(Player manager, String eventName) {
@@ -137,7 +141,10 @@ public class SimpleGameService implements GameService {
             final UserStorageService uss = Sponge.getServiceManager().provideUnchecked(UserStorageService.class);
             Optional<User> optUser = uss.get(participants.getUniqueId());
             if( optUser.isPresent() ) {
-                optUser.get().setLocation( participants.getOriginalPosition().getPosition(), participants.getOriginalPosition().getExtent().getUniqueId() );
+                if( !optUser.get().isOnline() ) {
+                    this.playersDisonnectedDuringEvent.put( optUser.get().getUniqueId(), participants.getOriginalPosition() );
+                }
+                optUser.get().setLocation(participants.getOriginalPosition().getPosition(), participants.getOriginalPosition().getExtent().getUniqueId());
                 optUser.get().getInventory().clear();
             }
         });
@@ -159,6 +166,16 @@ public class SimpleGameService implements GameService {
             return false;
 
         return game.getManager().equals(player.getUniqueId());
+    }
+
+    @Override
+    public Location<World> wasPlayerInEvent(UUID player) {
+        return playersDisonnectedDuringEvent.containsKey(player) ? playersDisonnectedDuringEvent.get(player) : null;
+    }
+
+    @Override
+    public void removePlayerFromDisconnected(UUID player) {
+        this.playersDisonnectedDuringEvent.remove(player);
     }
 
 

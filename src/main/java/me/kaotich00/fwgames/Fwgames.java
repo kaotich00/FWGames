@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import me.kaotich00.fwgames.api.game.GameService;
 import me.kaotich00.fwgames.commands.FwCommandManager;
 import me.kaotich00.fwgames.game.SimpleGameService;
+import me.kaotich00.fwgames.listeners.PlayerJoinListener;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -44,11 +45,16 @@ public class Fwgames {
     @Listener
     public void onInit(GameInitializationEvent event) {
         registerCommands();
+        registerListeners();
     }
 
     @Listener
     public void onServerStop(GameStoppingServerEvent event){
 
+    }
+
+    private void registerListeners(){
+        Sponge.getEventManager().registerListeners(this.container, new PlayerJoinListener());
     }
 
     private void registerCommands() {

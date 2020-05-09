@@ -1,22 +1,24 @@
 package me.kaotich00.fwgames.game;
 
 import me.kaotich00.fwgames.api.game.Participants;
+import me.kaotich00.fwgames.data.FwLocation;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class FwParticipants implements Participants {
+public class FwParticipants implements Participants, Serializable {
 
     private String name;
     private UUID uniqueId;
-    private Location<World> originalPosition;
+    private FwLocation originalPosition;
 
     public FwParticipants(Player player){
         this.name = player.getName();
         this.uniqueId = player.getUniqueId();
-        this.originalPosition = player.getLocation();
+        this.originalPosition = new FwLocation( player.getLocation() );
     }
 
     @Override
@@ -30,7 +32,7 @@ public class FwParticipants implements Participants {
     }
 
     @Override
-    public Location<World> getOriginalPosition() {
+    public FwLocation getOriginalPosition() {
         return this.originalPosition;
     }
 }

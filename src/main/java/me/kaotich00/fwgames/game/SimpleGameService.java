@@ -110,11 +110,17 @@ public class SimpleGameService implements GameService {
     @Override
     public void saveGames() {
         File gamesFile = new File(configDir, "games");
+        File disconnectedFile = new File(configDir, "disconnected");
         try{
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(gamesFile));
             objectOutputStream.writeObject(gamesList);
             objectOutputStream.flush();
             objectOutputStream.close();
+
+            ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(new FileOutputStream(disconnectedFile));
+            objectOutputStream2.writeObject(disconnectedBeforeEnd);
+            objectOutputStream2.flush();
+            objectOutputStream2.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -128,11 +134,26 @@ public class SimpleGameService implements GameService {
             try{
                 ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(gamesFile));
                 this.gamesList = (HashMap<String, Game>) objectInputStream.readObject();
+                objectInputStream.close();
             }catch (IOException | ClassNotFoundException e){
                 this.gamesList = gamesList;
             }
         }else{
             this.gamesList = gamesList;
+        }
+
+        HashMap<UUID,FwLocation> disconnectedPlayers = new HashMap<>();
+        File disconnectedFile = new File(configDir, "disconnected");
+        if( disconnectedFile.exists() ) {
+            try{
+                ObjectInputStream objectInputStream2 = new ObjectInputStream(new FileInputStream(disconnectedFile));
+                this.disconnectedBeforeEnd = (HashMap<UUID, FwLocation>) objectInputStream2.readObject();
+                objectInputStream2.close();
+            }catch (IOException | ClassNotFoundException e){
+                this.disconnectedBeforeEnd = disconnectedPlayers;
+            }
+        }else{
+            this.disconnectedBeforeEnd = disconnectedPlayers;
         }
     }
 
